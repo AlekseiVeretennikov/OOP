@@ -1,31 +1,151 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.vcxproj", "{E15029C6-08C8-4047-97F3-3B855D86D881}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E15029C6-08C8-4047-97F3-3B855D86D881}.Debug|x64.ActiveCfg = Debug|x64
-		{E15029C6-08C8-4047-97F3-3B855D86D881}.Debug|x64.Build.0 = Debug|x64
-		{E15029C6-08C8-4047-97F3-3B855D86D881}.Debug|x86.ActiveCfg = Debug|Win32
-		{E15029C6-08C8-4047-97F3-3B855D86D881}.Debug|x86.Build.0 = Debug|Win32
-		{E15029C6-08C8-4047-97F3-3B855D86D881}.Release|x64.ActiveCfg = Release|x64
-		{E15029C6-08C8-4047-97F3-3B855D86D881}.Release|x64.Build.0 = Release|x64
-		{E15029C6-08C8-4047-97F3-3B855D86D881}.Release|x86.ActiveCfg = Release|Win32
-		{E15029C6-08C8-4047-97F3-3B855D86D881}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D1EB5600-219B-445B-AE47-EC2B6391E476}
-	EndGlobalSection
-EndGlobal
+#include <iostream>
+#include <string>
+#include <locale.h>
+using namespace std;
+
+
+class Monkey {
+private:
+    string name;
+    int age;
+    string food;
+    bool trained; 
+
+public:
+ 
+    Monkey(string n, int a, string f, bool t) {
+        name = n;
+        age = a;
+        food = f;
+        trained = t;
+    }
+
+    
+    string getName() {
+        return name;
+    }
+
+    int getAge() {
+        return age;
+    }
+
+    string getFood() {
+        return food;
+    }
+
+    bool isTrained() {
+        return trained;
+    }
+
+  
+    virtual void sound() {
+        cout << "Обезьяна " << name << " издает звук: Ууу" << endl;
+    }
+
+    virtual void info() {
+        cout << "Имя: " << name << endl;
+        cout << "Возраст: " << age << " лет" << endl;
+        cout << "Еда: " << food << endl;
+        cout << "Дрессированная: " << (trained ? "Да" : "Нет") << endl;
+    }
+
+    void eat() {
+        cout << name << " ест " << food << endl;
+    }
+};
+
+
+class Chimp : public Monkey {
+private:
+    bool smart; 
+
+public:
+    
+    Chimp(string n, int a, string f, bool t, bool s) : Monkey(n, a, f, t) {
+        smart = s;
+    }
+
+    
+    void sound() override {
+        cout << "Шимпанзе " << getName() << " кричит: Уауа" << endl;
+    }
+
+   
+    void info() override {
+        Monkey::info(); 
+        cout << "Умный: " << (smart ? "Да" : "Нет") << endl;
+    }
+
+    
+    void climb() {
+        cout << getName() << " лазает по деревьям" << endl;
+    }
+};
+
+
+class Gorilla : public Monkey {
+private:
+    bool aggressive; 
+
+public:
+    Gorilla(string n, int a, string f, bool t, bool aggr) : Monkey(n, a, f, t) {
+        aggressive = aggr;
+    }
+
+    void sound() override {
+        cout << "Горилла " << getName() << " рычит: Грргрр" << endl;
+    }
+
+    void info() override {
+        Monkey::info();
+        cout << "Агрессивная: " << (aggressive ? "Да" : "Нет") << endl;
+    }
+
+    void beat_chest() {
+        cout << getName() << " стучит по груди" << endl;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+
+  
+    Monkey monkey1("Никита", 5, "фрукты", true);  
+    Chimp chimp1("Паша", 10, "бананы", false, true);  
+    Gorilla gorilla1("Алексей", 15, "листья", true, false);  
+
+    cout << "===== Обезьяны в зоопарке =====" << endl << endl;
+
+    cout << "-- Обычная обезьяна --" << endl;
+    monkey1.info();
+    monkey1.sound();
+    monkey1.eat();
+    cout << endl;
+
+    cout << "-- Шимпанзе --" << endl;
+    chimp1.info();
+    chimp1.sound();
+    chimp1.eat();
+    chimp1.climb();
+    cout << endl;
+
+    cout << "-- Горилла --" << endl;
+    gorilla1.info();
+    gorilla1.sound();
+    gorilla1.eat();
+    gorilla1.beat_chest();
+    cout << endl;
+
+  
+    cout << "-- Демонстрация полиморфизма --" << endl;
+    Monkey* zoo[3];
+    zoo[0] = &monkey1;
+    zoo[1] = &chimp1;
+    zoo[2] = &gorilla1;
+
+    for (int i = 0; i < 3; i++) {
+        zoo[i]->sound(); 
+    }
+
+    return 0;
+}
