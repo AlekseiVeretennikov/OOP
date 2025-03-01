@@ -110,9 +110,9 @@ int main() {
     setlocale(LC_ALL, "Russian");
 
   
-    Monkey monkey1("Никита", 5, "фрукты", true);  
-    Chimp chimp1("Паша", 10, "бананы", false, true);  
-    Gorilla gorilla1("Алексей", 15, "листья", true, false);  
+    Monkey monkey1("Никита", 25, "фрукты", true);  
+    Chimp chimp1("Паша", 23, "бананы", false, true);  
+    Gorilla gorilla1("Алексей", 25, "листья", true, false);  
 
     cout << "===== Обезьяны в зоопарке =====" << endl << endl;
 
